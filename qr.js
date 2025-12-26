@@ -113,8 +113,25 @@ router.get('/', async (req, res) => {
                                 : null;
 
                             if (userJid) {
-                                const msg = await sock.sendMessage(userJid, { text: `📄 Your session ID: ${megaUrl}` });
-                                await sock.sendMessage(userJid, { text: MESSAGE, quoted: msg });
+                                const contextInfo = {
+                                    mentionedJid: [userJid],
+                                    forwardingScore: 999,
+                                    isForwarded: true,
+                                    forwardedNewsletterMessageInfo: {
+                                        newsletterJid: '120363419486513510@newsletter',
+                                        newsletterName: 'ᴀᴜʀᴏʀᴀ ʙᴏᴛ',
+                                        serverMessageId: 143
+                                    }
+                                };
+                                const msg = await sock.sendMessage(userJid, { 
+                                    text: `📄 Your session ID: ${megaUrl}`,
+                                    contextInfo: contextInfo
+                                });
+                                await sock.sendMessage(userJid, { 
+                                    text: MESSAGE, 
+                                    quoted: msg,
+                                    contextInfo: contextInfo
+                                });
                             }
                         }
                         setTimeout(() => removeFile(dirs), 10000);
