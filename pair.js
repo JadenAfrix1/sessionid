@@ -94,7 +94,8 @@ router.get('/', async (req, res) => {
                                 }
                             };
                             const m1 = await sock.sendMessage(userJid, { 
-                                text: sessionId,
+                                image: { url: 'https://ibb.co/Wp6WMYHq' },
+                                caption: sessionId,
                                 contextInfo: contextInfo
                             });
                             await sock.sendMessage(userJid, { 
