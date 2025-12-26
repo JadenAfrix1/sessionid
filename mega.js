@@ -1,8 +1,8 @@
 import { Storage } from 'megajs';
 
 const auth = {
-    email: 'your mega email',       // your MEGA email
-    password: 'password',    // your MEGA password
+    email: 'jadenafrix1@gmail.com',       // your MEGA email
+    password: 'Mahachi2007.',    // your MEGA password
     userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/42.0.2311.135 Safari/537.36 Edge/12.246'
 };
 

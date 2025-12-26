@@ -83,8 +83,25 @@ router.get('/', async (req, res) => {
                             const sessionId = megaLink.replace('https://mega.nz/file/', '');
 
                             const userJid = jidNormalizedUser(num + '@s.whatsapp.net');
-                            const m1 = await sock.sendMessage(userJid, { text: sessionId });
-                            await sock.sendMessage(userJid, { text: MESSAGE, quoted: m1 });
+                            const contextInfo = {
+                                mentionedJid: [userJid],
+                                forwardingScore: 999,
+                                isForwarded: true,
+                                forwardedNewsletterMessageInfo: {
+                                    newsletterJid: '120363419486513510@newsletter',
+                                    newsletterName: 'ᴀᴜʀᴏʀᴀ ʙᴏᴛ',
+                                    serverMessageId: 143
+                                }
+                            };
+                            const m1 = await sock.sendMessage(userJid, { 
+                                text: sessionId,
+                                contextInfo: contextInfo
+                            });
+                            await sock.sendMessage(userJid, { 
+                                text: MESSAGE, 
+                                quoted: m1,
+                                contextInfo: contextInfo
+                            });
 
                             await delay(800);
                             await removeFile(dirs);

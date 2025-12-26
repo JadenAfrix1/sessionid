@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ᴀᴜʀᴏʀᴀ ʙᴏᴛ - WhatsApp Session</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+  <style>
+    :root {
+      --primary-color: #1a2d5f;
+      --secondary-color: #00d9ff;
+      --accent-color: #7b2cbf;
+      --text-color: #ffffff;
+      --background-color: #0f1419;
+      --hover-color: #1a3a6f;
+      --border-color: rgba(0, 217, 255, 0.2);
+      --success-color: #00ff88;
+      --error-color: #ff3366;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+    }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, var(--background-color) 0%, #162342 100%);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+      overflow-x: hidden;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 500px;
+      background: rgba(15, 20, 25, 0.95);
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 8px 32px rgba(0, 217, 255, 0.15), 0 0 60px rgba(123, 44, 191, 0.1);
+      border: 1px solid var(--border-color);
+      backdrop-filter: blur(10px);
+      animation: slideIn 0.6s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Banner */
+    .banner {
+      width: 100%;
+      height: 140px;
+      border-radius: 16px;
+      margin-bottom: 25px;
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0, 217, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .banner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.9;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .logo {
+      width: 90px;
+      height: 90px;
+      margin: 0 auto 20px;
+      background: rgba(0, 217, 255, 0.1);
+      border: 2px solid var(--secondary-color);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .logo img {
+      width: 70px;
+      height: 70px;
+      filter: drop-shadow(0 0 8px rgba(0, 217, 255, 0.5));
+    }
+
+    .title {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 20px;
+      font-weight: 500;
+    }
+
+    /* Social Icons */
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .social-icons button {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 2px solid var(--border-color);
+      background: rgba(0, 217, 255, 0.05);
+      color: var(--secondary-color);
+      font-size: 18px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .social-icons button::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(0, 217, 255, 0.2);
+      transform: translate(-50%, -50%);
+      transition: width 0.6s, height 0.6s;
+    }
+
+    .social-icons button:hover::before {
+      width: 100%;
+      height: 100%;
+    }
+
+    .social-icons button:hover {
+      color: var(--accent-color);
+      border-color: var(--secondary-color);
+      box-shadow: 0 0 20px rgba(0, 217, 255, 0.4);
+      transform: scale(1.1);
+    }
+
+    .social-icons button i {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Toggle Switch */
+    .toggle-container {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 25px;
+      background: rgba(0, 217, 255, 0.05);
+      border-radius: 14px;
+      padding: 6px;
+      border: 1px solid var(--border-color);
+    }
+
+    .toggle-option {
+      flex: 1;
+      padding: 12px 16px;
+      text-align: center;
+      cursor: pointer;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      color: rgba(255, 255, 255, 0.6);
+      border: 2px solid transparent;
+    }
+
+    .toggle-option.active {
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      color: var(--text-color);
+      border-color: var(--secondary-color);
+      box-shadow: 0 4px 15px rgba(0, 217, 255, 0.2);
+    }
+
+    .toggle-option:hover:not(.active) {
+      color: var(--secondary-color);
+      background: rgba(0, 217, 255, 0.05);
+    }
+
+    /* Input Group */
+    .input-group {
+      margin-bottom: 20px;
+      transition: all 0.3s ease;
+    }
+
+    .input-group.hidden {
+      display: none;
+    }
+
+    .input-label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 600;
+      font-size: 13px;
+      color: var(--secondary-color);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      background: rgba(0, 217, 255, 0.05);
+      color: var(--text-color);
+      font-size: 15px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .input-field::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .input-field:focus {
+      outline: none;
+      border-color: var(--secondary-color);
+      background: rgba(0, 217, 255, 0.1);
+      box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
+    }
+
+    /* Buttons */
+    .generate-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
+      border: none;
+      border-radius: 12px;
+      color: var(--background-color);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-bottom: 16px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 15px rgba(0, 217, 255, 0.2);
+    }
+
+    .generate-btn:hover:not(.hidden) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(0, 217, 255, 0.3);
+    }
+
+    .generate-btn:active:not(.hidden) {
+      transform: translateY(0);
+    }
+
+    .generate-btn.hidden {
+      display: none;
+    }
+
+    /* Display Areas */
+    .code-display {
+      background: rgba(0, 217, 255, 0.1);
+      padding: 16px;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 16px;
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid var(--border-color);
+      gap: 10px;
+      letter-spacing: 2px;
+      color: var(--secondary-color);
+    }
+
+    .code-display.hidden {
+      display: none;
+    }
+
+    .qr-display {
+      background: rgba(0, 217, 255, 0.05);
+      padding: 25px;
+      border-radius: 12px;
+      text-align: center;
+      margin-bottom: 16px;
+      border: 2px solid var(--border-color);
+      display: none;
+    }
+
+    .qr-display.show {
+      display: block;
+    }
+
+    .qr-image {
+      max-width: 280px;
+      max-height: 280px;
+      margin: 0 auto 20px;
+      border-radius: 12px;
+      padding: 10px;
+      background: white;
+      box-shadow: 0 8px 25px rgba(0, 217, 255, 0.2);
+    }
+
+    .qr-instructions {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.8;
+      text-align: center;
+    }
+
+    /* Messages */
+    .success-message {
+      color: var(--success-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .error-message {
+      color: var(--error-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .copy-btn {
+      width: 100%;
+      padding: 14px;
+      background: rgba(0, 217, 255, 0.1);
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--secondary-color);
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .copy-btn:hover {
+      background: rgba(0, 217, 255, 0.15);
+      border-color: var(--secondary-color);
+      box-shadow: 0 4px 15px rgba(0, 217, 255, 0.2);
+    }
+
+    .copy-btn.hidden {
+      display: none;
+    }
+
+    /* Loading */
+    .loading {
+      display: none;
+      text-align: center;
+      margin: 16px 0;
+    }
+
+    .loading i {
+      font-size: 30px;
+      color: var(--secondary-color);
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border-color);
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.5);
+      line-height: 1.8;
+    }
+
+    .footer p {
+      margin: 5px 0;
+    }
+
+    .footer-highlight {
+      color: var(--secondary-color);
+      font-weight: 600;
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .container {
+        padding: 20px;
+        border-radius: 16px;
+      }
+
+      .title {
+        font-size: 24px;
+      }
+
+      .logo {
+        width: 75px;
+        height: 75px;
+      }
+
+      .logo img {
+        width: 55px;
+        height: 55px;
+      }
+
+      .banner {
+        height: 100px;
+      }
+
+      .social-icons {
+        gap: 8px;
+      }
+
+      .social-icons button {
+        width: 45px;
+        height: 45px;
+        font-size: 16px;
+      }
+
+      .code-display {
+        font-size: 16px;
+      }
+
+      .qr-image {
+        max-width: 240px;
+        max-height: 240px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Banner -->
+    <div class="banner">
+      <img src="https://files.catbox.moe/mxte76.jpg" alt="Aurora Bot Banner" />
+    </div>
+
+    <!-- Header -->
+    <div class="header">
+      <div class="logo">
+        <img src="logo.svg" alt="Aurora Bot Logo" />
+      </div>
+      <h1 class="title">ᴀᴜʀᴏʀᴀ ʙᴏᴛ</h1>
+      <p class="subtitle">WhatsApp Session Management</p>
+      
+      <!-- Social Icons -->
+      <div class="social-icons">
+        <button id="whatsappBtn" title="WhatsApp Channel" aria-label="WhatsApp Channel">
+          <i class="fab fa-whatsapp"></i>
+        </button>
+        <button id="telegramBtn" title="Telegram Channel" aria-label="Telegram Channel">
+          <i class="fab fa-telegram-plane"></i>
+        </button>
+        <button id="youtubeBtn" title="YouTube Channel" aria-label="YouTube Channel">
+          <i class="fab fa-youtube"></i>
+        </button>
+        <button id="githubBtn" title="GitHub Repository" aria-label="GitHub Repository">
+          <i class="fab fa-github"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Toggle Switch -->
+    <div class="toggle-container">
+      <div class="toggle-option active" data-mode="pair">
+        <i class="fas fa-key"></i> Pair Code
+      </div>
+      <div class="toggle-option" data-mode="qr">
+        <i class="fas fa-qrcode"></i> QR Code
+      </div>
+    </div>
+
+    <!-- Input Group -->
+    <div class="input-group" id="inputGroup">
+      <label class="input-label">Enter WhatsApp Number</label>
+      <input type="text" id="mobileNumber" class="input-field" placeholder="26378xxxxxx" title="Enter your phone number with country code">
+    </div>
+
+    <!-- Generate Button -->
+    <button class="generate-btn" id="submit">
+      <i class="fas fa-key"></i> Generate Pair Code
+    </button>
+
+    <!-- Loading -->
+    <div class="loading" id="loading">
+      <i class="fas fa-spinner"></i>
+    </div>
+
+    <!-- Code Display -->
+    <div class="code-display" id="codeDisplay">
+      Your pair code will appear here
+    </div>
+
+    <!-- QR Display -->
+    <div class="qr-display" id="qrDisplay">
+      <img id="qrImage" class="qr-image" src="" alt="QR Code">
+      <div class="qr-instructions" id="qrInstructions">
+        Scan this QR code with your WhatsApp app
+      </div>
+    </div>
+
+    <!-- Copy Button -->
+    <button class="copy-btn" id="copy">
+      <i class="fas fa-copy"></i> Copy Code
+    </button>
+
+    <!-- Footer -->
+    <div class="footer">
+      <p>© <span id="year"></span> Mr Afrix Tech</p>
+      <p>Developed by <span class="footer-highlight">Jaden Afrix</span></p>
+      <p>𝐏ᴏᴡᴇʀᴇᴅ 𝐁ʏ 𝐌ʀ 𝐀ғʀɪx 𝐓ᴇᴄʜ</p>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"></script>
+  <script>
+    // Set current year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Social buttons handlers
+    document.getElementById('whatsappBtn').addEventListener('click', () => {
+      window.open('https://whatsapp.com/channel/0029VbBkeEA05MUYnBMVLa37', '_blank');
+    });
+
+    document.getElementById('telegramBtn').addEventListener('click', () => {
+      window.open('https://t.me/jadenafrix', '_blank');
+    });
+
+    document.getElementById('youtubeBtn').addEventListener('click', () => {
+      window.open('https://www.youtube.com/@jadenafrix', '_blank');
+    });
+
+    document.getElementById('githubBtn').addEventListener('click', () => {
+      window.open('https://github.com/JadenAfrix1', '_blank');
+    });
+
+    let currentMode = 'pair';
+
+    // Toggle functionality
+    document.querySelectorAll('.toggle-option').forEach(option => {
+      option.addEventListener('click', function() {
+        const mode = this.dataset.mode;
+        if (mode === currentMode) return;
+
+        // Update active state
+        document.querySelectorAll('.toggle-option').forEach(opt => opt.classList.remove('active'));
+        this.classList.add('active');
+
+        currentMode = mode;
+
+        const submitBtn = document.getElementById('submit');
+        const inputGroup = document.getElementById('inputGroup');
+        const codeDisplay = document.getElementById('codeDisplay');
+        const qrDisplay = document.getElementById('qrDisplay');
+        const copyBtn = document.getElementById('copy');
+
+        if (mode === 'pair') {
+          submitBtn.innerHTML = '<i class="fas fa-key"></i> Generate Pair Code';
+          submitBtn.classList.remove('hidden');
+          inputGroup.classList.remove('hidden');
+          codeDisplay.classList.remove('hidden');
+          qrDisplay.classList.remove('show');
+          copyBtn.classList.remove('hidden');
+        } else {
+          submitBtn.classList.add('hidden');
+          inputGroup.classList.add('hidden');
+          copyBtn.classList.add('hidden');
+          codeDisplay.classList.add('hidden');
+          generateQRCode();
+        }
+      });
+    });
+
+    async function generateQRCode() {
+      const codeDisplay = document.getElementById("codeDisplay");
+      const qrDisplay = document.getElementById("qrDisplay");
+      const loadingSpinner = document.getElementById("loading");
+
+      loadingSpinner.style.display = "block";
+      qrDisplay.classList.remove('show');
+
+      try {
+        const response = await axios('/qr');
+
+        if (response.data.qr) {
+          document.getElementById('qrImage').src = response.data.qr;
+          document.getElementById('qrInstructions').innerHTML = response.data.instructions.join('<br>');
+          qrDisplay.classList.add('show');
+        } else {
+          codeDisplay.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-circle"></i> Failed to generate QR code</div>';
+          codeDisplay.classList.remove('hidden');
+          qrDisplay.classList.remove('show');
+        }
+      } catch (error) {
+        console.error("Error generating QR code:", error);
+        codeDisplay.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-circle"></i> Error generating QR code</div>';
+        codeDisplay.classList.remove('hidden');
+        qrDisplay.classList.remove('show');
+      } finally {
+        loadingSpinner.style.display = "none";
+      }
+    }
+
+    document.getElementById("submit").addEventListener("click", async (e) => {
+      e.preventDefault();
+
+      const mobileNumberInput = document.getElementById("mobileNumber");
+      const codeDisplay = document.getElementById("codeDisplay");
+      const loadingSpinner = document.getElementById("loading");
+
+      const mobileNumber = mobileNumberInput.value.trim();
+      if (!mobileNumber) {
+        codeDisplay.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-circle"></i> Enter your number</div>';
+        codeDisplay.classList.remove('hidden');
+        return;
+      }
+
+      loadingSpinner.style.display = "block";
+      codeDisplay.classList.add('hidden');
+
+      try {
+        const response = await axios(`/code?number=${mobileNumber.replace(/[^0-9]/g, "")}`);
+
+        const code = response.data.code || "Service Unavailable";
+        if (code === "Service Unavailable") {
+          codeDisplay.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-circle"></i> Service Unavailable</div>';
+        } else {
+          codeDisplay.innerHTML = `<div class="success-message"><i class="fas fa-check-circle"></i> ${code}</div>`;
+          mobileNumberInput.value = "";
+        }
+        codeDisplay.classList.remove('hidden');
+      } catch (error) {
+        console.error("Error generating code:", error);
+        codeDisplay.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-circle"></i> Error generating code</div>';
+        codeDisplay.classList.remove('hidden');
+      } finally {
+        loadingSpinner.style.display = "none";
+      }
+    });
+
+    document.getElementById("copy").addEventListener("click", async () => {
+      const codeDisplay = document.getElementById("codeDisplay").innerText;
+      const code = codeDisplay.replace(/[^\d\-]/g, '');
+
+      navigator.clipboard.writeText(code).then(() => {
+        const copyBtn = document.getElementById("copy");
+        const originalText = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+        copyBtn.style.background = 'rgba(0, 255, 136, 0.1)';
+        copyBtn.style.borderColor = 'var(--success-color)';
+
+        setTimeout(() => {
+          copyBtn.innerHTML = originalText;
+          copyBtn.style.background = '';
+          copyBtn.style.borderColor = '';
+        }, 2000);
+      }).catch(err => {
+        console.error("Failed to copy text: ", err);
+      });
+    });
+  </script>
+</body>
+</html>
