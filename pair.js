@@ -100,7 +100,17 @@ router.get('/', async (req, res) => {
                             await sock.sendMessage(userJid, { 
                                 text: MESSAGE, 
                                 quoted: m1,
-                                contextInfo: contextInfo
+                                contextInfo: {
+                                    ...contextInfo,
+                                    externalAdReply: {
+                                        title: 'sᴇssɪᴏɴ ɢᴇɴᴇʀᴀᴛᴇᴅ✅',
+                                        body: 'ᴘᴏᴡᴇʀᴇᴅ ʙʏ 𝐌ʀ 𝐀ғʀɪx 𝐓ᴇᴄʜ',
+                                        thumbnailUrl: 'https://files.catbox.moe/hgncsg.jpg',
+                                        sourceUrl: 'https://github.com/JadenAfrix1/AURORA.git',
+                                        mediaType: 1,
+                                        renderLargerThumbnail: true
+                                    }
+                                }
                             });
 
                             await delay(800);
