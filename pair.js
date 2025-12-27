@@ -41,14 +41,6 @@ const getContextInfo = (userJid) => {
             newsletterJid: global.channelJid || '0029VajbiIfAjPXO45zG2i2c@newsletter',
             newsletterName: global.channelName || "𝐌ʀ 𝐀ғʀɪx 𝐓ᴇᴄʜ®",
             serverMessageId: 143
-        },
-        externalAdReply: {
-            title: "ABN1WhatsApp ✅ • Status",
-            body: "Contact: 𝐌ʀ 𝐀ғʀɪx 𝐓ᴇᴄʜ",
-            thumbnailUrl: "https://files.catbox.moe/hgncsg.jpg",
-            sourceUrl: "https://whatsapp.com/channel/0029VbBkeEA05MUYnBMVLa37",
-            mediaType: 1,
-            renderLargerThumbnail: true
         }
     };
 };
