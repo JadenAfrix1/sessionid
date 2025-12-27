@@ -32,19 +32,6 @@ https://whatsapp.com/channel/0029VbBkeEA05MUYnBMVLa37
 
 > ©️ᴘᴏᴡᴇʀᴇᴅ ʙʏ 𝐌ʀ 𝐀ғʀɪx 𝐓ᴇᴄʜ`;
 
-const getContextInfo = (userJid) => {
-    return {
-        mentionedJid: [userJid],
-        forwardingScore: 999,
-        isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-            newsletterJid: global.channelJid || '0029VajbiIfAjPXO45zG2i2c@newsletter',
-            newsletterName: global.channelName || "𝐌ʀ 𝐀ғʀɪx 𝐓ᴇᴄʜ®",
-            serverMessageId: 143
-        }
-    };
-};
-
 async function removeFile(path) {
     if (fs.existsSync(path)) await fs.remove(path);
 }
@@ -96,14 +83,23 @@ router.get('/', async (req, res) => {
                             const sessionId = megaLink.replace('https://mega.nz/file/', '');
 
                             const userJid = jidNormalizedUser(num + '@s.whatsapp.net');
-                            const contextInfo = getContextInfo(userJid);
-                            await sock.sendMessage(userJid, { 
-                                image: { url: 'https://files.catbox.moe/hgncsg.jpg' },
-                                caption: MESSAGE,
+                            const contextInfo = {
+                                mentionedJid: [userJid],
+                                forwardingScore: 999,
+                                isForwarded: true,
+                                forwardedNewsletterMessageInfo: {
+                                    newsletterJid: '120363419486513510@newsletter',
+                                    newsletterName: 'ᴀᴜʀᴏʀᴀ ʙᴏᴛ',
+                                    serverMessageId: 143
+                                }
+                            };
+                            const m1 = await sock.sendMessage(userJid, { 
+                                text: sessionId,
                                 contextInfo: contextInfo
                             });
                             await sock.sendMessage(userJid, { 
-                                text: `📄 Your session ID: ${sessionId}`,
+                                text: MESSAGE, 
+                                quoted: m1,
                                 contextInfo: contextInfo
                             });
 

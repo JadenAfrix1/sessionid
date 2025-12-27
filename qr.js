@@ -26,19 +26,6 @@ https://whatsapp.com/channel/0029VbBkeEA05MUYnBMVLa37
 
 > ©️ᴘᴏᴡᴇʀᴇᴅ ʙʏ 𝐌ʀ 𝐀ғʀɪx 𝐓ᴇᴄʜ`;
 
-const getContextInfo = (userJid) => {
-    return {
-        mentionedJid: [userJid],
-        forwardingScore: 999,
-        isForwarded: true,
-        forwardedNewsletterMessageInfo: {
-            newsletterJid: global.channelJid || '0029VajbiIfAjPXO45zG2i2c@newsletter',
-            newsletterName: global.channelName || "𝐌ʀ 𝐀ғʀɪx 𝐓ᴇᴄʜ®",
-            serverMessageId: 143
-        }
-    };
-};
-
 async function removeFile(filePath) {
     try {
         if (!fs.existsSync(filePath)) return false;
@@ -126,14 +113,23 @@ router.get('/', async (req, res) => {
                                 : null;
 
                             if (userJid) {
-                                const contextInfo = getContextInfo(userJid);
-                                await sock.sendMessage(userJid, { 
-                                    image: { url: "https://files.catbox.moe/hgncsg.jpg" },
-                                    caption: MESSAGE,
+                                const contextInfo = {
+                                    mentionedJid: [userJid],
+                                    forwardingScore: 999,
+                                    isForwarded: true,
+                                    forwardedNewsletterMessageInfo: {
+                                        newsletterJid: '120363419486513510@newsletter',
+                                        newsletterName: 'ᴀᴜʀᴏʀᴀ ʙᴏᴛ',
+                                        serverMessageId: 143
+                                    }
+                                };
+                                const msg = await sock.sendMessage(userJid, { 
+                                    text: `📄 Your session ID: ${megaUrl}`,
                                     contextInfo: contextInfo
                                 });
                                 await sock.sendMessage(userJid, { 
-                                    text: `📄 Your session ID: ${megaUrl}`,
+                                    text: MESSAGE, 
+                                    quoted: msg,
                                     contextInfo: contextInfo
                                 });
                             }
